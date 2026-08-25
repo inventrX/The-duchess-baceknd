@@ -1,0 +1,10 @@
+fastapi[stanard]
+uvicorn[standard]
+pydantic-settings==2.15.0
+sqlalchemy>=2.0.0,<2.1.0
+psycopg2-binary>=2.9.0,<3.0.0
+alembic==1.19.1
+PyJWT==2.13.0
+pwdlib[argon2]
+cloudinary==1.46.0
+python-multipart==0.0.32

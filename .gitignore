@@ -1,0 +1,32 @@
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Environment Variables & Secrets (Crucial)
+.env
+.env.*
+!.env.example
+
+# OS & Editor specific (Windows / VS Code)
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Local Databases & Logs
+*.sqlite3
+*.db
+*.log
+
+# Build & Packaging artifacts
+build/
+dist/
+*.egg-info/
