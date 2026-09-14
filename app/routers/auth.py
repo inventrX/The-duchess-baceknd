@@ -6,6 +6,9 @@ from app.core.database import get_db
 from app.core.security import verify_password, create_access_token
 from app.models.models import AdminUser
 from app.schemas.schemas import Token
+from app.core.dependencies import get_current_user
+from app.schemas.user import UserResponse
+from app.models.users import User
 
 router = APIRouter(prefix="/api/auth", tags=["Auth"])
 
@@ -27,3 +30,8 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     # 3. Generate the token
     access_token = create_access_token(data={"sub": admin.email})
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.get("/me", response_model=UserResponse)
+def get_me(current_user: User = Depends(get_current_user)):
+    """Return the currently authenticated user."""
+    return current_user

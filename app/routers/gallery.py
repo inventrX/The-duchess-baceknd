@@ -7,7 +7,11 @@ from app.core.database import get_db
 from app.core.dependencies import get_current_admin
 from app.models.models import Gallery
 from app.schemas.schemas import GalleryCreate, GalleryResponse
-
+from app.database.session import get_db
+from app.core.dependencies import get_current_user
+from app.models.users import User
+from app.models.gallery import GalleryItem
+from app.schemas.gallery import GalleryResponse, GalleryUpdate
 router = APIRouter(prefix="/api/gallery", tags=["Gallery"])
 
 @router.get("/", response_model=List[GalleryResponse])
@@ -34,3 +38,23 @@ def delete_gallery_item(item_id: UUID, db: Session = Depends(get_db), admin=Depe
     db.delete(gallery_item)
     db.commit()
     return None
+
+@router.put("/{item_id}", response_model=GalleryResponse)
+def update_gallery_item(
+    item_id: UUID,
+    update_data: GalleryUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Update gallery item metadata (e.g., caption)."""
+    item = db.query(GalleryItem).filter(GalleryItem.id == item_id).first()
+    if not item:
+        raise HTTPException(status_code=404, detail="Gallery item not found")
+        
+    update_dict = update_data.model_dump(exclude_unset=True)
+    for key, value in update_dict.items():
+        setattr(item, key, value)
+        
+    db.commit()
+    db.refresh(item)
+    return item
