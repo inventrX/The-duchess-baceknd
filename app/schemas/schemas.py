@@ -1,13 +1,21 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr
 from typing import Optional
 from datetime import datetime
 from uuid import UUID
 
-# --- Auth Schemas ---
+# --- Auth & Admin User Schemas ---
 class Token(BaseModel):
     """Schema for the JWT login response"""
     access_token: str
     token_type: str = "bearer"
+
+class AdminUserResponse(BaseModel):
+    """Schema for returning current authenticated admin details via GET /api/auth/me"""
+    id: UUID
+    email: str
+    created_at: Optional[datetime] = None
+
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Contact Message Schemas ---
 class ContactCreate(BaseModel):
@@ -15,6 +23,10 @@ class ContactCreate(BaseModel):
     name: str
     email: str
     message: str
+
+class ContactUpdate(BaseModel):
+    """Schema for updating contact message status (PATCH /api/contact/{message_id})"""
+    is_read: Optional[bool] = None
 
 class ContactResponse(BaseModel):
     """Schema for outgoing contact messages sent back to the admin dashboard"""
@@ -24,8 +36,7 @@ class ContactResponse(BaseModel):
     message: str
     is_read: bool
     created_at: datetime
-    
-    # Tells Pydantic to read data directly from the SQLAlchemy database models
+
     model_config = ConfigDict(from_attributes=True)
 
 # --- Post (Blog) Schemas ---
@@ -36,7 +47,6 @@ class PostCreate(BaseModel):
     is_published: bool = False
 
 class PostUpdate(BaseModel):
-    # Optional means the user doesn't have to update every field at once
     title: Optional[str] = None
     slug: Optional[str] = None
     content: Optional[str] = None
@@ -57,6 +67,11 @@ class PostResponse(BaseModel):
 class GalleryCreate(BaseModel):
     image_url: str
     caption: Optional[str] = None
+
+class GalleryUpdate(BaseModel):
+    """Schema for updating gallery items (PUT /api/gallery/{item_id})"""
+    caption: Optional[str] = None
+    image_url: Optional[str] = None
 
 class GalleryResponse(BaseModel):
     id: UUID
