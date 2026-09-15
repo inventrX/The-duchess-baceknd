@@ -2,7 +2,7 @@ import uuid
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
-from app.database.session import Base
+from app.core.database import Base
 
 class GalleryItem(Base):
     __tablename__ = "gallery_items"

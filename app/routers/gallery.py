@@ -6,11 +6,10 @@ from uuid import UUID
 from app.core.database import get_db
 from app.core.dependencies import get_current_admin
 from app.models.models import Gallery
-from app.schemas.schemas import GalleryCreate, GalleryResponse
+from app.schemas.schemas import GalleryCreate, GalleryResponse, GalleryUpdate
 from app.core.dependencies import get_current_admin
 from app.models.models import AdminUser
 from app.models.gallery import GalleryItem
-from app.schemas.gallery import GalleryResponse, GalleryUpdate
 router = APIRouter(prefix="/api/gallery", tags=["Gallery"])
 
 @router.get("/", response_model=List[GalleryResponse])
