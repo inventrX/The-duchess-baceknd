@@ -7,7 +7,6 @@ from app.core.database import get_db
 from app.core.dependencies import get_current_admin
 from app.models.models import Gallery
 from app.schemas.schemas import GalleryCreate, GalleryResponse
-from app.database.session import get_db
 from app.core.dependencies import get_current_admin
 from app.models.models import AdminUser
 from app.models.gallery import GalleryItem
