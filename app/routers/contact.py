@@ -8,8 +8,8 @@ from app.core.dependencies import get_current_admin
 from app.models.models import ContactMessage
 from app.schemas.schemas import ContactCreate, ContactResponse
 from app.database.session import get_db
-from app.core.dependencies import get_current_user
-from app.models.users import User
+from app.core.dependencies import get_current_admin
+from app.models.models import AdminUser
 from app.schemas.contact import ContactResponse, ContactUpdate
 
 # Create the router (Groups all /api/contact routes together)
@@ -46,7 +46,7 @@ def update_contact_message(
     message_id: UUID,
     update_data: ContactUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: AdminUser = Depends(get_current_admin)
 ):
     """Update a contact message (e.g., toggle is_read status)."""
     message = db.query(ContactMessage).filter(ContactMessage.id == message_id).first()
@@ -65,7 +65,7 @@ def update_contact_message(
 def delete_contact_message(
     message_id: UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_admin: AdminUser = Depends(get_current_admin)
 ):
     """Permanently delete a contact message."""
     message = db.query(ContactMessage).filter(ContactMessage.id == message_id).first()
