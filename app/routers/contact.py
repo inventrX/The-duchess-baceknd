@@ -5,11 +5,9 @@ from uuid import UUID
 
 from app.core.database import get_db
 from app.core.dependencies import get_current_admin
-from app.models.models import ContactMessage
-from app.schemas.schemas import ContactCreate, ContactResponse
-from app.core.dependencies import get_current_admin
-from app.models.models import AdminUser
-from app.schemas.contact import ContactResponse, ContactUpdate
+from app.models.models import ContactMessage, AdminUser
+# I combined all three schemas into schemas.py import
+from app.schemas.schemas import ContactCreate, ContactResponse, ContactUpdate
 
 # Create the router (Groups all /api/contact routes together)
 router = APIRouter(prefix="/api/contact", tags=["Contact"])
