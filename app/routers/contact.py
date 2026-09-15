@@ -7,7 +7,6 @@ from app.core.database import get_db
 from app.core.dependencies import get_current_admin
 from app.models.models import ContactMessage
 from app.schemas.schemas import ContactCreate, ContactResponse
-from app.database.session import get_db
 from app.core.dependencies import get_current_admin
 from app.models.models import AdminUser
 from app.schemas.contact import ContactResponse, ContactUpdate
